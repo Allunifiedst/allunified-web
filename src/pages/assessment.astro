@@ -1,21 +1,351 @@
 ---
-const domains = [
-['govern','Govern','Gobierno y dirección',['Estrategia formal aprobada por Dirección','Riesgos revisados por Alta Dirección','Presupuesto específico de ciberseguridad','Política corporativa documentada','Responsable definido','Evaluación de proveedores críticos','Indicadores revisados con negocio','Mejora continua de riesgos']],
-['identify','Identify','Activos y riesgos',['Inventario de activos críticos','Inventario de software','Clasificación de información','Mapa de red actualizado','Inventario de proveedores','Inventario OT cuando aplica','Evaluaciones periódicas de riesgo','Servicios cloud identificados']],
-['protect','Protect','Controles preventivos',['MFA en accesos críticos','Respaldos protegidos y monitoreados','EDR/antimalware administrado','Firewalls administrados','Segmentación de red','Hardening y actualización','Awareness de seguridad','Privilegios mínimos']],
-['detect','Detect','Monitoreo y visibilidad',['Recolección de logs críticos','SIEM/XDR/correlación','SOC o monitoreo formal','Alertas críticas priorizadas','Monitoreo de disponibilidad','Escaneo de vulnerabilidades','Monitoreo OT cuando aplica','Threat Intelligence']],
-['respond','Respond','Respuesta a incidentes',['Plan formal de respuesta','Roles definidos','Simulacros o ejercicios','Matriz de comunicación','Capacidad forense o apoyo externo','Procedimientos de contención','Lecciones aprendidas','Relación legal/autoridades/aseguradora']],
-['recover','Recover','Continuidad y recuperación',['DRP tecnológico','BCP para procesos críticos','Pruebas de recuperación','RTO definidos','RPO definidos','Backups offline/inmutables','Estrategias alternas de continuidad','Recuperación OT cuando aplica']]
-];
-const scale=['0 - No existe','1 - Inicial','2 - Parcial','3 - Implementado','4 - Gestionado','5 - Optimizado'];
 ---
-<html lang="es"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Cyber Maturity Assessment | ALLUNIFIED</title><style>
-:root{--bg:#020817;--cyan:#22d3ee;--ink:#0f172a;--muted:#64748b;--soft:#f4f7fb;--line:#e2e8f0}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:white}a{text-decoration:none;color:inherit}.container{width:min(1180px,calc(100% - 40px));margin:auto}.header{position:sticky;top:0;z-index:30;background:rgba(2,8,23,.86);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.1)}.nav{height:82px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:14px;align-items:center}.brand img{width:58px;height:58px;border-radius:16px;object-fit:cover;background:white;padding:4px}.brand b{font-size:23px;letter-spacing:.04em}.brand span{display:block;font-size:12px;letter-spacing:.22em;color:rgba(255,255,255,.7);text-transform:uppercase}.btn{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:12px 22px;font-weight:850;background:transparent;color:white;cursor:pointer}.btn-primary{background:var(--cyan);border-color:var(--cyan);color:#02101d}.hero{padding:70px 0;background:radial-gradient(circle at 20% 10%,rgba(34,211,238,.18),transparent 32%),linear-gradient(135deg,#020817,#071827 54%,#0a1e58)}.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}.eyebrow{color:var(--cyan);text-transform:uppercase;letter-spacing:.28em;font-size:13px;font-weight:950;margin-bottom:18px}h1{font-size:clamp(42px,5.5vw,72px);line-height:1;margin:0;font-weight:950;letter-spacing:-.055em}.hero p{font-size:20px;line-height:1.65;color:rgba(255,255,255,.74)}.hero-card{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.07);border-radius:32px;padding:30px}.hero-card strong{font-size:50px;color:var(--cyan)}.section{padding:64px 0}.white{background:white;color:var(--ink)}.soft{background:var(--soft);color:var(--ink)}.panel{background:white;border:1px solid var(--line);border-radius:28px;box-shadow:0 18px 48px rgba(15,23,42,.08);overflow:hidden}.pad{padding:26px}.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.field label{display:block;font-weight:800;font-size:14px;margin-bottom:7px}.field input,.field select,.q select{width:100%;border:1px solid #cbd5e1;border-radius:14px;padding:12px;font-size:15px}.domain{border-top:1px solid var(--line);padding:26px}.domain:first-child{border-top:0}.domain-title{font-size:28px;font-weight:950}.muted{color:var(--muted)}.q{display:grid;grid-template-columns:1fr 220px;gap:18px;align-items:center;padding:15px 0;border-top:1px solid #eef2f7}.q p{margin:0;line-height:1.5}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.dashboard{display:none}.report{background:white;color:var(--ink);padding:36px;border-radius:28px;border:1px solid var(--line)}.report-head{display:flex;justify-content:space-between;gap:20px;align-items:center;border-bottom:2px solid #e2e8f0;padding-bottom:20px;margin-bottom:24px}.report-head img{width:150px;border-radius:18px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.kpi{border:1px solid var(--line);border-radius:24px;background:white;padding:22px}.kpi strong{font-size:36px;color:#0891b2;display:block}.bars{display:grid;gap:14px;margin-top:20px}.bar-row{display:grid;grid-template-columns:120px 1fr 60px;gap:12px;align-items:center}.bar-bg{height:15px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,#0b5fff,#22d3ee)}.two{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px}.risk,.road{border-radius:16px;padding:16px;margin-bottom:12px}.risk{border-left:5px solid #f97316;background:#fff7ed}.road{background:#f8fafc;border:1px solid #e2e8f0}.source-note{font-size:13px;color:#64748b;line-height:1.6;margin-top:18px}.radar{width:100%;max-width:390px}@media(max-width:900px){.hero-grid,.grid2,.two{grid-template-columns:1fr}.q{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.bar-row{grid-template-columns:1fr}}@media(max-width:600px){.kpis{grid-template-columns:1fr}h1{font-size:42px}.brand span{display:none}}@media print{.header,.hero,.form,.actions,.no-print{display:none!important}.dashboard{display:block!important}.section{padding:0}.report{border:0;border-radius:0}.container{width:100%}body{background:white;color:#0f172a}.page-break{page-break-before:always}}
-</style></head><body>
-<header class="header no-print"><div class="container nav"><a class="brand" href="/"><img src="/images/logo-original.jpeg" alt="ALLUNIFIED"/><div><b>ALLUNIFIED</b><span>Cyber Maturity Assessment</span></div></a><a class="btn" href="/">Volver al sitio</a></div></header>
-<main><section class="hero no-print"><div class="container hero-grid"><div><div class="eyebrow">Assessment ejecutivo</div><h1>Conozca la madurez primaria de seguridad de su empresa.</h1><p>Evaluación rápida basada en las funciones del NIST Cybersecurity Framework 2.0 para obtener dashboard ejecutivo, riesgos prioritarios y roadmap inicial.</p><p style="font-size:13px;color:rgba(255,255,255,.62)">Herramienta de orientación inicial desarrollada por ALLUNIFIED. No es certificación, auditoría ni evaluación oficial de NIST.</p></div><aside class="hero-card"><strong>48</strong><p>preguntas · 6 dominios · 10 a 12 minutos</p><p>Resultado: dashboard ejecutivo e impresión PDF con branding ALLUNIFIED.</p></aside></div></section>
-<section class="section white form"><div class="container"><div class="panel pad"><div class="eyebrow">Datos de la empresa</div><h2 style="font-size:42px;margin:0 0 22px">Inicio de evaluación</h2><div class="grid2"><div class="field"><label>Empresa</label><input id="company" placeholder="Nombre de la empresa"/></div><div class="field"><label>Sector</label><select id="sector"><option>PyME</option><option>Manufactura</option><option>Logística</option><option>Retail</option><option>Servicios profesionales</option><option>Otro</option></select></div><div class="field"><label>Responsable</label><input id="owner" placeholder="Nombre del responsable"/></div><div class="field"><label>Correo</label><input id="email" placeholder="correo@empresa.com"/></div></div></div><div class="panel" style="margin-top:24px">{domains.map(([id,name,sub,questions])=><section class="domain" data-domain={id}><div style="margin-bottom:18px"><div class="domain-title">{name}</div><div class="muted">{sub}</div></div>{questions.map((q,i)=><div class="q"><p><strong>{name.substring(0,2).toUpperCase()}{i+1}.</strong> {q}</p><select class="score" data-domain={id}>{scale.map((s,i)=><option value={i}>{s}</option>)}</select></div>)}</section>)}</div><div class="actions"><button class="btn btn-primary" type="button" onclick="calculateAssessment()">Generar dashboard</button><button class="btn" type="button" onclick="resetAssessment()" style="color:#0f172a">Limpiar</button></div></div></section>
-<section id="dashboardSection" class="section soft dashboard"><div class="container"><div class="report" id="report"><div class="report-head"><div><div class="eyebrow" style="margin-bottom:8px">ALLUNIFIED Cyber Maturity Dashboard</div><h2 style="font-size:42px;margin:0">Reporte ejecutivo de madurez</h2><p class="muted" id="reportMeta"></p></div><img src="/images/logo-original.jpeg" alt="ALLUNIFIED"/></div><div class="kpis"><div class="kpi"><strong id="overallScore">0%</strong><span>Madurez general</span></div><div class="kpi"><strong id="levelName">Inicial</strong><span>Nivel</span></div><div class="kpi"><strong id="topDomain">-</strong><span>Dominio fuerte</span></div><div class="kpi"><strong id="weakDomain">-</strong><span>Prioridad</span></div></div><div class="two"><div><h3>Madurez por dominio</h3><div class="bars" id="bars"></div></div><div><h3>Radar ejecutivo</h3><svg class="radar" viewBox="0 0 420 360" id="radarSvg"></svg></div></div><div class="two page-break"><div><h3>Top riesgos iniciales</h3><div id="risks"></div></div><div><h3>Roadmap recomendado</h3><div id="roadmap"></div></div></div><p class="source-note">Basado en las funciones del NIST Cybersecurity Framework 2.0: Govern, Identify, Protect, Detect, Respond y Recover. Esta evaluación es una valoración primaria de madurez y no sustituye una auditoría formal ni certificación.</p></div><div class="actions no-print"><button class="btn btn-primary" onclick="window.print()">Generar PDF / Imprimir</button><a class="btn" style="color:#0f172a" href="mailto:contacto@allunifiedst.com?subject=Sesión ejecutiva ACMA">Solicitar sesión ejecutiva</a></div></div></section></main>
-<script is:inline>
-const labels={govern:'Govern',identify:'Identify',protect:'Protect',detect:'Detect',respond:'Respond',recover:'Recover'};function lvl(s){if(s>=85)return'Optimizado';if(s>=70)return'Gestionado';if(s>=50)return'Intermedio';if(s>=30)return'Básico';return'Inicial'}function calculateAssessment(){const r={};Object.keys(labels).forEach(d=>r[d]=[]);document.querySelectorAll('.score').forEach(s=>r[s.dataset.domain].push(Number(s.value)));const scores=Object.entries(r).map(([id,v])=>({id,label:labels[id],score:Math.round(v.reduce((a,b)=>a+b,0)/(v.length*5)*100)}));const overall=Math.round(scores.reduce((a,b)=>a+b.score,0)/scores.length);const top=[...scores].sort((a,b)=>b.score-a.score)[0];const weak=[...scores].sort((a,b)=>a.score-b.score)[0];dashboardSection.style.display='block';overallScore.textContent=overall+'%';levelName.textContent=lvl(overall);topDomain.textContent=top.label;weakDomain.textContent=weak.label;reportMeta.textContent=(company.value||'Empresa evaluada')+' · '+sector.value+' · '+(owner.value||'Responsable no especificado')+' · '+new Date().toLocaleDateString('es-MX');renderBars(scores);renderRadar(scores);renderRisks(scores);renderRoadmap(weak.id);dashboardSection.scrollIntoView({behavior:'smooth'});}function renderBars(scores){bars.innerHTML=scores.map(d=>`<div class="bar-row"><strong>${d.label}</strong><div class="bar-bg"><div class="bar-fill" style="width:${d.score}%"></div></div><span>${d.score}%</span></div>`).join('')}function renderRadar(scores){const cx=210,cy=180,maxR=125;const pts=scores.map((d,i)=>{const a=(-90+i*60)*Math.PI/180,r=maxR*d.score/100;return[cx+r*Math.cos(a),cy+r*Math.sin(a),d]});const axis=scores.map((d,i)=>{const a=(-90+i*60)*Math.PI/180;return[cx+maxR*Math.cos(a),cy+maxR*Math.sin(a),d]});radarSvg.innerHTML=`<polygon points="${axis.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="#cbd5e1" stroke-width="2"/>${axis.map(p=>`<line x1="${cx}" y1="${cy}" x2="${p[0]}" y2="${p[1]}" stroke="#e2e8f0"/>`).join('')}<polygon points="${pts.map(p=>p[0]+','+p[1]).join(' ')}" fill="rgba(34,211,238,.35)" stroke="#0891b2" stroke-width="3"/>${axis.map(p=>`<text x="${p[0]}" y="${p[1]}" fill="#334155" font-size="13" font-weight="700" text-anchor="middle">${p[2].label}</text>`).join('')}`}function renderRisks(scores){const riskMap={govern:'Gobierno insuficiente para priorizar inversión y responsabilidades.',identify:'Visibilidad incompleta de activos, proveedores, cloud u OT.',protect:'Controles preventivos insuficientes para reducir exposición.',detect:'Baja capacidad de detección temprana.',respond:'Capacidad limitada para contener y comunicar incidentes.',recover:'Riesgo de recuperación lenta por DRP/BCP o respaldos no probados.'};risks.innerHTML=[...scores].sort((a,b)=>a.score-b.score).slice(0,3).map(d=>`<div class="risk"><strong>${d.label}: ${d.score}%</strong><br>${riskMap[d.id]}</div>`).join('')}function renderRoadmap(w){const a={govern:['Formalizar estrategia y responsable.','Definir indicadores y presupuesto.','Crear comité de riesgos tecnológicos.'],identify:['Actualizar inventarios.','Clasificar información y servicios críticos.','Mapear red, cloud y OT.'],protect:['Implementar MFA.','Revisar respaldos, EDR y privilegios.','Ejecutar awareness focalizado.'],detect:['Centralizar logs críticos.','Definir alertas prioritarias.','Iniciar gestión de vulnerabilidades.'],respond:['Crear plan de respuesta.','Definir roles y comunicación.','Realizar tabletop exercise.'],recover:['Definir RTO/RPO.','Probar recuperación de respaldos.','Actualizar DRP/BCP anti-ransomware.']};roadmap.innerHTML=`<div class="road"><strong>0-90 días</strong><br>${a[w][0]}</div><div class="road"><strong>90-180 días</strong><br>${a[w][1]}</div><div class="road"><strong>180-360 días</strong><br>${a[w][2]}</div>`}function resetAssessment(){document.querySelectorAll('.score').forEach(s=>s.value='0');dashboardSection.style.display='none'}
-</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACMA v1.0 | ALLUNIFIED Cyber Maturity Assessment</title>
+  <meta name="description" content="ACMA v1.0: Assessment de madurez en ciberseguridad de ALLUNIFIED basado en NIST CSF 2.0 con dashboard, fortalezas, debilidades, roadmap y PDF ejecutivo." />
+  <style is:global>
+    :root{--navy:#020817;--navy2:#071827;--cyan:#22d3ee;--blue:#0b5fff;--ink:#0f172a;--muted:#64748b;--soft:#f4f7fb;--line:#dbe5f0;--green:#16a34a;--yellow:#eab308;--orange:#f97316;--red:#ef4444}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--navy);color:white;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif} a{color:inherit;text-decoration:none} button,input,select{font:inherit}.container{width:min(1180px,calc(100% - 40px));margin:0 auto}
+    .header{position:sticky;top:0;z-index:50;background:rgba(2,8,23,.88);border-bottom:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px)}.nav{min-height:86px;display:flex;justify-content:space-between;align-items:center;gap:18px}.brand{display:flex;align-items:center;gap:14px}.brand img{width:60px;height:60px;border-radius:18px;background:white;padding:4px;object-fit:cover}.brand-title{font-weight:950;font-size:24px;letter-spacing:.04em;line-height:1}.brand-sub{margin-top:6px;font-size:12px;text-transform:uppercase;letter-spacing:.24em;color:rgba(255,255,255,.7)}
+    .btn{border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:13px 22px;font-weight:900;background:transparent;color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--cyan);color:#04121f;border-color:var(--cyan);box-shadow:0 18px 50px rgba(34,211,238,.18)}.btn-dark{background:#020817;border-color:#020817;color:white}.btn-soft{border-color:#cbd5e1;color:#0f172a;background:white}.btn-blue{background:var(--blue);border-color:var(--blue);color:white}
+    .hero{padding:86px 0 70px;background:radial-gradient(circle at 18% 10%,rgba(34,211,238,.18),transparent 32%),radial-gradient(circle at 90% 0%,rgba(11,95,255,.30),transparent 36%),linear-gradient(135deg,#020817,#071827 55%,#0a1e58)}.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:62px;align-items:center}.eyebrow{color:var(--cyan);font-weight:950;letter-spacing:.30em;text-transform:uppercase;font-size:13px;line-height:1.7;margin-bottom:18px}h1{font-size:clamp(44px,6vw,76px);line-height:.98;letter-spacing:-.06em;margin:0;font-weight:950}.hero-copy{font-size:20px;line-height:1.7;color:rgba(255,255,255,.74);max-width:720px;margin-top:28px}.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}.hero-card{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.065);border-radius:34px;padding:32px;box-shadow:0 32px 90px rgba(0,0,0,.28)}.hero-card h2{font-size:32px;letter-spacing:-.04em;margin:0 0 12px}.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px}.quick{border:1px solid rgba(255,255,255,.1);border-radius:22px;background:rgba(2,8,23,.45);padding:18px}.quick strong{display:block;color:var(--cyan);font-size:31px;font-weight:950}.quick span{color:rgba(255,255,255,.65)}
+    .section{padding:80px 0}.white{background:white;color:var(--ink)}.soft{background:var(--soft);color:var(--ink)}.dark{background:var(--navy);color:white}.section-title{font-size:clamp(36px,5vw,58px);line-height:1.05;letter-spacing:-.052em;margin:0;font-weight:950;max-width:930px}.section-copy{color:#64748b;font-size:19px;line-height:1.72;max-width:900px;margin:22px 0 0}.value-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:46px}.value-card{background:white;border:1px solid var(--line);border-radius:28px;padding:26px;box-shadow:0 12px 32px rgba(15,23,42,.06)}.value-card strong{font-size:21px;display:block}.value-card p{color:#64748b;line-height:1.62}
+    .domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}.domain-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:26px}.domain-icon{width:52px;height:52px;border-radius:18px;background:rgba(34,211,238,.16);display:grid;place-items:center;color:#d6fbff;font-weight:950;margin-bottom:16px}.domain-card h3{font-size:26px;margin:0}.domain-card p{line-height:1.62;color:rgba(255,255,255,.68)}
+    .panel{background:white;border:1px solid var(--line);border-radius:32px;box-shadow:0 20px 60px rgba(15,23,42,.08);overflow:hidden}.wizard-head{padding:30px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:18px}.wizard-title{font-size:34px;font-weight:950;letter-spacing:-.045em}.wizard-sub{color:#64748b;margin-top:6px;line-height:1.5}.panel-body{padding:30px}.progress{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin-bottom:28px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:999px;transition:.25s}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.field label{display:block;font-weight:850;margin-bottom:8px;color:#334155}.field input,.field select,.question select{width:100%;border:1px solid #cbd5e1;border-radius:16px;padding:14px 15px;background:#fff;color:#0f172a;font-size:16px;outline:none}.field input:focus,.field select:focus,.question select:focus{border-color:#22d3ee;box-shadow:0 0 0 4px rgba(34,211,238,.15)}
+    .questions{display:grid;gap:14px}.question{display:grid;grid-template-columns:1fr 245px;gap:18px;align-items:center;padding:18px;border:1px solid #e2e8f0;border-radius:20px;background:#fff}.question p{margin:0;line-height:1.55;color:#334155}.q-title{font-weight:950;color:#0f172a}.q-context{font-size:13px;color:#64748b;margin-top:7px}.wizard-actions{padding:22px 30px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}
+    .results{display:none}.results.active{display:block}.report{background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:32px;padding:34px;box-shadow:0 20px 60px rgba(15,23,42,.08)}.report-head{display:flex;justify-content:space-between;align-items:center;gap:24px;border-bottom:2px solid #e2e8f0;padding-bottom:22px;margin-bottom:26px}.report-head img{width:150px;border-radius:18px}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.kpi{border:1px solid var(--line);border-radius:26px;background:white;padding:22px}.kpi strong{font-size:40px;line-height:1;color:#0891b2;display:block}.kpi span{display:block;color:#64748b;margin-top:8px}
+    .gauge{height:18px;background:#e2e8f0;border-radius:999px;overflow:hidden;margin:20px 0}.gauge-fill{height:100%;width:0;background:linear-gradient(90deg,var(--red),var(--orange),var(--yellow),var(--green));border-radius:999px}.two-col,.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}.bars{display:grid;gap:14px}.bar-row{display:grid;grid-template-columns:120px 1fr 58px;gap:12px;align-items:center}.bar-bg{height:15px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:999px}.radar{width:100%;max-width:420px}.insight{border:1px solid var(--line);border-radius:26px;background:white;padding:24px}.insight h3{font-size:25px;margin-top:0}.insight ul{padding-left:18px;color:#475569;line-height:1.7}
+    .risk{border-left:5px solid var(--orange);background:#fff7ed;border-radius:16px;padding:16px;margin-top:12px;color:#7c2d12}.risk.high{border-left-color:var(--red);background:#fef2f2;color:#7f1d1d}.quickwin{border-left:5px solid var(--green);background:#f0fdf4;border-radius:16px;padding:16px;margin-top:12px;color:#14532d}.roadmap,.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}.road{background:#f8fafc;border:1px solid #e2e8f0;border-radius:22px;padding:20px}.road strong{display:block;color:#0369a1;font-size:20px;margin-bottom:10px}.process-grid{grid-template-columns:repeat(6,1fr)}.process{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:22px;padding:18px;text-align:center}.process b{color:var(--cyan)}.source-note{font-size:13px;color:#64748b;line-height:1.6;margin-top:22px}.badge{display:inline-flex;border-radius:999px;padding:7px 12px;font-weight:950;font-size:12px}.badge.red{background:#fee2e2;color:#991b1b}.badge.orange{background:#ffedd5;color:#9a3412}.badge.yellow{background:#fef9c3;color:#854d0e}.badge.green{background:#dcfce7;color:#166534}.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}.service-rec{border:1px solid #e2e8f0;border-radius:18px;padding:18px;background:#f8fafc}.service-rec strong{display:block;color:#020817}
+
+    .final-review{display:grid;grid-template-columns:1.1fr .9fr;gap:22px}
+    .review-card{border:1px solid #e2e8f0;border-radius:24px;background:#fff;padding:24px}
+    .review-card h3{margin:0 0 16px;font-size:24px;letter-spacing:-.03em}
+    .review-table{display:grid;gap:0;border:1px solid #e2e8f0;border-radius:18px;overflow:hidden}
+    .review-row{display:grid;grid-template-columns:220px 1fr;gap:18px;padding:14px 16px;border-bottom:1px solid #e2e8f0;align-items:center}
+    .review-row:last-child{border-bottom:none}
+    .review-row b{color:#334155}
+    .review-benefit{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid #e2e8f0}
+    .review-benefit:last-child{border-bottom:none}
+    .review-icon{min-width:42px;height:42px;border-radius:14px;background:#e0f7ff;color:#0284c7;display:grid;place-items:center;font-weight:950}
+    .privacy-note{margin-top:18px;border:1px solid #bbf7d0;background:#f0fdf4;color:#14532d;border-radius:18px;padding:16px;line-height:1.55}
+
+    @media(max-width:980px){.hero-grid,.two-col,.insight-grid,.final-review{grid-template-columns:1fr}.value-grid,.domain-grid,.kpis,.services-grid{grid-template-columns:1fr 1fr}.question{grid-template-columns:1fr}.roadmap,.process-grid{grid-template-columns:1fr 1fr}}@media(max-width:620px){.review-row{grid-template-columns:1fr;gap:5px}.nav{align-items:flex-start;flex-direction:column;padding:16px 0}.brand-sub{display:none}.value-grid,.domain-grid,.kpis,.roadmap,.process-grid,.form-grid,.services-grid{grid-template-columns:1fr}.wizard-head{flex-direction:column}.hero{padding-top:48px}}
+    @media print{.no-print,.header,.hero,.intro,.wizard-section,.actions-print{display:none!important}.results{display:block!important}.section{padding:0}.container{width:100%}.report{box-shadow:none;border:none;border-radius:0}.soft{background:#fff}body{background:#fff;color:#0f172a}.report-head{page-break-after:avoid}.page-break{page-break-before:always}}
+  </style>
+</head>
+<body>
+  <header class="header no-print">
+    <div class="container nav">
+      <a class="brand" href="/">
+        <img src="/images/logo-original.jpeg" alt="ALLUNIFIED" />
+        <div><div class="brand-title">ALLUNIFIED</div><div class="brand-sub">ACMA v1.0</div></div>
+      </a>
+      <a class="btn btn-primary" href="#start">Iniciar assessment</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero no-print">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">ALLUNIFIED Cyber Maturity Assessment</div>
+          <h1>Conozca su madurez. Priorice inversión. Fortalezca su negocio.</h1>
+          <p class="hero-copy">ACMA v1.0 es una valoración primaria basada en NIST CSF 2.0 que permite identificar fortalezas, debilidades, riesgos prioritarios y un roadmap ejecutivo para elevar la postura de ciberseguridad.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#start">Iniciar Assessment</a>
+            <a class="btn" href="#descripcion">Qué recibirá</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h2>Assessment ejecutivo completo</h2>
+          <p class="hero-copy" style="font-size:17px;margin-top:12px">48 preguntas ponderadas · 6 dominios · dashboard ejecutivo · fortalezas · debilidades · riesgos · quick wins · roadmap · PDF.</p>
+          <div class="quick-grid">
+            <div class="quick"><strong>6</strong><span>funciones NIST CSF 2.0</span></div>
+            <div class="quick"><strong>48</strong><span>controles ejecutivos</span></div>
+            <div class="quick"><strong>PDF</strong><span>informe profesional</span></div>
+            <div class="quick"><strong>Roadmap</strong><span>30/90/180/365 días</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="descripcion" class="section white intro no-print">
+      <div class="container">
+        <div class="eyebrow">Complemento descriptivo</div>
+        <h2 class="section-title">¿Qué es ACMA y por qué conviene realizarlo?</h2>
+        <p class="section-copy">La mayoría de las organizaciones conoce qué tecnología posee, pero no siempre entiende su nivel real de madurez, resiliencia y exposición. ACMA ayuda a convertir respuestas ejecutivas en un mapa inicial de riesgos, fortalezas y prioridades de mejora. Es el primer paso antes de un assessment técnico en campo.</p>
+        <div class="value-grid">
+          <div class="value-card"><strong>Diagnóstico inicial</strong><p>Obtenga una lectura ejecutiva de su postura de seguridad sin instalar software ni interrumpir la operación.</p></div>
+          <div class="value-card"><strong>Fortalezas y debilidades</strong><p>Identifique qué capacidades ya aportan valor y qué brechas requieren atención prioritaria.</p></div>
+          <div class="value-card"><strong>Dashboard accionable</strong><p>Visualice madurez global, dominios NIST, radar, barras, riesgos y recomendaciones.</p></div>
+          <div class="value-card"><strong>Puente a consultoría</strong><p>Use el resultado para iniciar un workshop ejecutivo y validar hallazgos mediante assessment técnico.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark intro no-print">
+      <div class="container">
+        <div class="eyebrow">Qué evaluaremos</div>
+        <h2 class="section-title">Seis dominios inspirados en NIST CSF 2.0.</h2>
+        <div class="domain-grid" id="domainCards"></div>
+      </div>
+    </section>
+
+    <section id="start" class="section soft wizard-section no-print">
+      <div class="container">
+        <div class="panel">
+          <div class="wizard-head">
+            <div>
+              <div class="eyebrow" id="stepEyebrow">Paso 1 de 8</div>
+              <div class="wizard-title" id="stepTitle">Información de la empresa</div>
+              <div class="wizard-sub" id="stepSub">Datos básicos para personalizar el dashboard y el PDF.</div>
+            </div>
+            <div style="font-weight:950;color:#0891b2" id="stepPercent">0%</div>
+          </div>
+          <div class="panel-body">
+            <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+            <div id="wizardContent"></div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn btn-soft" onclick="prevStep()">Anterior</button>
+            <button class="btn btn-primary" onclick="nextStep()" id="nextButton">Siguiente</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="section soft results">
+      <div class="container">
+        <div class="report">
+          <div class="report-head">
+            <div>
+              <div class="eyebrow">ACMA v1.0 · Executive Cyber Maturity Dashboard</div>
+              <h2 class="section-title" style="font-size:44px">Reporte ejecutivo de madurez</h2>
+              <p class="section-copy" id="reportMeta" style="font-size:16px;margin-top:12px"></p>
+            </div>
+            <img src="/images/logo-original.jpeg" alt="ALLUNIFIED"/>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi"><strong id="overallScore">0</strong><span>Madurez general</span></div>
+            <div class="kpi"><strong id="levelName">Inicial</strong><span>Nivel</span></div>
+            <div class="kpi"><strong id="riskLevel">Alto</strong><span>Riesgo general</span></div>
+            <div class="kpi"><strong id="resilienceIndex">0</strong><span>Índice resiliencia</span></div>
+          </div>
+          <div class="gauge"><div class="gauge-fill" id="gaugeFill"></div></div>
+
+          <div class="two-col">
+            <div><h3>Madurez por dominio</h3><div class="bars" id="bars"></div></div>
+            <div><h3>Radar ejecutivo</h3><svg class="radar" viewBox="0 0 440 370" id="radarSvg"></svg></div>
+          </div>
+
+          <div class="insight-grid page-break">
+            <div class="insight"><h3>Fortalezas identificadas</h3><ul id="strengths"></ul></div>
+            <div class="insight"><h3>Debilidades prioritarias</h3><ul id="weaknesses"></ul></div>
+          </div>
+
+          <div class="two-col">
+            <div><h3>Riesgos prioritarios</h3><div id="risks"></div></div>
+            <div><h3>Quick Wins</h3><div id="quickwins"></div></div>
+          </div>
+
+          <div class="insight" style="margin-top:28px"><h3>Interpretación ejecutiva</h3><p id="executiveSummary" class="section-copy" style="font-size:16px;margin-top:0"></p></div>
+
+          <h3 style="margin-top:34px">Roadmap recomendado</h3>
+          <div class="roadmap" id="roadmap"></div>
+
+          <h3 style="margin-top:34px">Servicios sugeridos de ALLUNIFIED</h3>
+          <div class="services-grid" id="servicesRec"></div>
+
+          <h3 style="margin-top:34px">Modelo de acompañamiento</h3>
+          <div class="process-grid">
+            <div class="process"><b>1</b><br/>Assessment Digital</div>
+            <div class="process"><b>2</b><br/>Workshop Ejecutivo</div>
+            <div class="process"><b>3</b><br/>Assessment Técnico</div>
+            <div class="process"><b>4</b><br/>Roadmap Estratégico</div>
+            <div class="process"><b>5</b><br/>Implementación</div>
+            <div class="process"><b>6</b><br/>Servicios Administrados</div>
+          </div>
+
+          <p class="source-note">ACMA v1.0 es una valoración primaria desarrollada por ALLUNIFIED e inspirada en NIST CSF 2.0. No constituye certificación, auditoría formal ni evaluación oficial de NIST. Los resultados deben validarse mediante workshop ejecutivo y assessment técnico en campo.</p>
+        </div>
+
+        <div class="hero-actions actions-print" style="margin-top:24px">
+          <button class="btn btn-primary" onclick="window.print()">Generar PDF / Guardar como PDF</button>
+          <a class="btn btn-dark" href="mailto:contacto@allunifiedst.com?subject=Solicitud de Workshop Ejecutivo ACMA">Solicitar Workshop Ejecutivo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="application/json" id="domainsData">[{"id": "govern", "name": "Govern", "label": "Gobierno", "summary": "Dirección, estrategia, responsabilidades, políticas, cumplimiento, KPIs y gestión del riesgo.", "questions": [{"title": "Estrategia de ciberseguridad", "text": "¿Existe una estrategia formal de ciberseguridad aprobada por la Dirección?", "weight": 1.2}, {"title": "Supervisión ejecutiva", "text": "¿La Alta Dirección revisa periódicamente riesgos tecnológicos y de ciberseguridad?", "weight": 1.1}, {"title": "Presupuesto", "text": "¿Existe presupuesto específico para ciberseguridad, continuidad y reducción de riesgos?", "weight": 1.0}, {"title": "Políticas", "text": "¿Existe una política corporativa de seguridad documentada, aprobada y comunicada?", "weight": 1.0}, {"title": "Responsable", "text": "¿Existe un responsable claramente definido para ciberseguridad y gestión de riesgos?", "weight": 1.1}, {"title": "Terceros", "text": "¿Se evalúan riesgos de ciberseguridad al contratar proveedores críticos?", "weight": 1.0}, {"title": "Indicadores", "text": "¿Se revisan indicadores de seguridad con responsables de negocio?", "weight": 1.0}, {"title": "Mejora continua", "text": "¿Existe un programa formal de mejora continua para la gestión de riesgos?", "weight": 0.9}]}, {"id": "identify", "name": "Identify", "label": "Identificación", "summary": "Inventarios, activos críticos, información, proveedores, servicios cloud, red y ambientes OT.", "questions": [{"title": "Inventario de activos", "text": "¿Existe inventario actualizado de activos tecnológicos críticos?", "weight": 1.2}, {"title": "Software y aplicaciones", "text": "¿Existe inventario actualizado de software, licencias y aplicaciones?", "weight": 1.0}, {"title": "Clasificación de información", "text": "¿La información se clasifica de acuerdo con su sensibilidad o criticidad?", "weight": 1.1}, {"title": "Mapa de red", "text": "¿Existe mapa de red actualizado, incluyendo conexiones críticas?", "weight": 1.0}, {"title": "Proveedores", "text": "¿Existe inventario de proveedores tecnológicos y servicios externos?", "weight": 1.0}, {"title": "Activos OT", "text": "¿Los activos OT/industriales están identificados cuando aplican?", "weight": 1.1}, {"title": "Evaluación de riesgos", "text": "¿Se realizan evaluaciones de riesgo tecnológico de forma periódica?", "weight": 1.2}, {"title": "Cloud/SaaS", "text": "¿Los servicios cloud y cuentas SaaS están identificados y gobernados?", "weight": 1.0}]}, {"id": "protect", "name": "Protect", "label": "Protección", "summary": "MFA, respaldos, hardening, EDR, firewalls, segmentación, awareness y privilegio mínimo.", "questions": [{"title": "MFA", "text": "¿El acceso remoto y las cuentas críticas utilizan autenticación multifactor?", "weight": 1.3}, {"title": "Respaldos", "text": "¿Existen respaldos protegidos, monitoreados y documentados?", "weight": 1.2}, {"title": "EDR/Endpoint", "text": "¿Los equipos críticos cuentan con EDR/antimalware administrado?", "weight": 1.1}, {"title": "Firewalls", "text": "¿Se utilizan firewalls y controles perimetrales administrados?", "weight": 1.0}, {"title": "Segmentación", "text": "¿Existe segmentación de red para sistemas críticos o industriales?", "weight": 1.2}, {"title": "Hardening", "text": "¿Se aplican prácticas de hardening y actualización de sistemas?", "weight": 1.0}, {"title": "Awareness", "text": "¿Existe programa de concientización en ciberseguridad?", "weight": 0.9}, {"title": "Privilegio mínimo", "text": "¿Se aplican principios de privilegio mínimo en usuarios y administradores?", "weight": 1.1}]}, {"id": "detect", "name": "Detect", "label": "Detección", "summary": "Logs, SIEM/XDR, SOC, alertas, vulnerabilidades y monitoreo continuo.", "questions": [{"title": "Logs", "text": "¿Se recolectan logs de sistemas, servidores y servicios críticos?", "weight": 1.1}, {"title": "SIEM/XDR", "text": "¿Existe SIEM, XDR o herramienta centralizada de correlación?", "weight": 1.2}, {"title": "SOC", "text": "¿Existe SOC interno, externo o monitoreo formal de alertas?", "weight": 1.2}, {"title": "Alertas", "text": "¿Las alertas críticas están definidas, documentadas y priorizadas?", "weight": 1.0}, {"title": "Disponibilidad", "text": "¿Se monitorea disponibilidad y desempeño de servicios críticos?", "weight": 0.9}, {"title": "Vulnerabilidades", "text": "¿Se realizan escaneos de vulnerabilidades de forma periódica?", "weight": 1.1}, {"title": "Monitoreo OT", "text": "¿Se monitorean eventos relevantes en ambientes OT cuando aplican?", "weight": 1.0}, {"title": "Threat Intelligence", "text": "¿Se utiliza inteligencia de amenazas o indicadores de compromiso?", "weight": 0.8}]}, {"id": "respond", "name": "Respond", "label": "Respuesta", "summary": "Plan de incidentes, roles, comunicación, contención, forense y aprendizaje.", "questions": [{"title": "Plan IR", "text": "¿Existe un plan formal de respuesta a incidentes?", "weight": 1.3}, {"title": "Roles", "text": "¿Los roles y responsabilidades durante incidentes están definidos?", "weight": 1.1}, {"title": "Simulacros", "text": "¿Se realizan ejercicios o simulacros de respuesta a incidentes?", "weight": 1.1}, {"title": "Comunicación", "text": "¿Existe matriz de comunicación para incidentes y crisis?", "weight": 1.0}, {"title": "Forense", "text": "¿Se cuenta con capacidad básica de análisis forense o apoyo externo?", "weight": 0.9}, {"title": "Contención", "text": "¿Existen procedimientos de contención y erradicación?", "weight": 1.0}, {"title": "Lecciones aprendidas", "text": "¿Se documentan lecciones aprendidas después de incidentes?", "weight": 0.9}, {"title": "Autoridades/terceros", "text": "¿Existe relación definida con asesores legales, aseguradora o autoridades cuando aplica?", "weight": 0.8}]}, {"id": "recover", "name": "Recover", "label": "Recuperación", "summary": "BCP, DRP, RTO/RPO, pruebas, respaldos protegidos y resiliencia.", "questions": [{"title": "DRP", "text": "¿Existe plan de recuperación ante desastres tecnológico?", "weight": 1.3}, {"title": "BCP", "text": "¿Existe plan de continuidad de negocio para procesos críticos?", "weight": 1.2}, {"title": "Pruebas DRP/BCP", "text": "¿Los planes de recuperación se prueban al menos una vez al año?", "weight": 1.2}, {"title": "RTO", "text": "¿Se tienen definidos objetivos RTO para servicios críticos?", "weight": 1.0}, {"title": "RPO", "text": "¿Se tienen definidos objetivos RPO para información crítica?", "weight": 1.0}, {"title": "Backups protegidos", "text": "¿Existen respaldos offline, inmutables o protegidos contra ransomware?", "weight": 1.2}, {"title": "Operación alterna", "text": "¿Los procesos críticos tienen estrategias alternas de continuidad?", "weight": 0.9}, {"title": "Recuperación OT", "text": "¿Existe plan de recuperación para ambientes OT o industriales cuando aplica?", "weight": 0.9}]}]</script>
+  <script type="application/json" id="scaleData">[{"value": 0, "label": "No existe", "description": "No se cuenta con el control, proceso o evidencia."}, {"value": 1, "label": "Inicial", "description": "Existe de forma informal, reactiva o dependiente de personas."}, {"value": 2, "label": "Parcial", "description": "Existe parcialmente, sin cobertura completa o sin estandarización."}, {"value": 3, "label": "Implementado", "description": "Está documentado e implementado de forma consistente."}, {"value": 4, "label": "Gestionado", "description": "Se mide, revisa y mejora periódicamente."}, {"value": 5, "label": "Optimizado", "description": "Está automatizado, integrado y mejora de forma continua."}]</script>
+  <script is:inline> 
+    const DOMAINS = JSON.parse(document.getElementById('domainsData').textContent);
+    const SCALE = JSON.parse(document.getElementById('scaleData').textContent);
+    let step = 0;
+    const answers = {};
+    DOMAINS.forEach(d => answers[d.id] = Array(d.questions.length).fill(0));
+    const company = {name:'', sector:'PyME', owner:'', email:'', size:'1-50 empleados', critical:'Operación normal'};
+
+    const guidance = {
+      govern:['La organización demuestra una base adecuada de gobierno y supervisión ejecutiva sobre riesgos de ciberseguridad.','Requiere fortalecer dirección, responsabilidades, políticas, indicadores y seguimiento ejecutivo.','Riesgo de decisiones reactivas, falta de presupuesto y ausencia de responsables claros.','Formalizar comité, responsable, políticas e indicadores ejecutivos.'],
+      identify:['Existe visibilidad razonable sobre activos, proveedores, información y dependencias críticas.','La visibilidad sobre activos, información, proveedores, cloud u OT es limitada.','Riesgo de activos desconocidos, shadow IT y exposición no identificada.','Actualizar inventario de activos, cloud, proveedores y servicios críticos.'],
+      protect:['Los controles preventivos muestran avances en accesos, respaldos, endpoints y configuración segura.','Los controles preventivos requieren refuerzo en MFA, respaldos, hardening, segmentación y privilegios.','Mayor probabilidad de accesos no autorizados, ransomware y errores humanos.','Implementar MFA, hardening, respaldos protegidos y privilegio mínimo.'],
+      detect:['Cuenta con capacidades de monitoreo y detección que permiten identificar eventos relevantes.','La capacidad de detección es limitada por falta de logs, SIEM/XDR, alertas o monitoreo de vulnerabilidades.','Riesgo de detectar incidentes tarde, perder evidencia y permitir movimiento lateral.','Centralizar logs, definir alertas, escanear vulnerabilidades y evaluar SIEM/XDR.'],
+      respond:['Existen elementos para coordinar respuesta a incidentes, roles, comunicación y aprendizaje.','Requiere formalizar planes, roles, ejercicios, comunicación, contención y lecciones aprendidas.','Riesgo de improvisación, tiempos mayores de contención e impacto reputacional.','Documentar plan IR, matriz de comunicación y ejecutar ejercicios tabletop.'],
+      recover:['Cuenta con bases de continuidad, recuperación y resiliencia para restaurar servicios críticos.','Requiere fortalecer DRP, BCP, pruebas, RTO/RPO, respaldos protegidos y continuidad.','Riesgo de interrupciones prolongadas, pérdida de información crítica e incapacidad operativa.','Definir RTO/RPO, probar respaldos, actualizar DRP/BCP y resiliencia anti-ransomware.']
+    };
+
+    const serviceMap = {
+      govern:'GRC & Cybersecurity Governance',
+      identify:'IT Infrastructure Assessment',
+      protect:'Cybersecurity Hardening & Zero Trust',
+      detect:'SOC/SIEM Readiness & Vulnerability Management',
+      respond:'Incident Response Readiness',
+      recover:'Business Continuity & Disaster Recovery'
+    };
+
+    function init(){
+      document.getElementById('domainCards').innerHTML = DOMAINS.map(d => `<article class="domain-card"><div class="domain-icon">${d.name.substring(0,2).toUpperCase()}</div><h3>${d.name}</h3><p>${d.summary}</p></article>`).join('');
+      renderStep();
+    }
+
+    function renderStep(){
+      const pct = Math.round(step / 7 * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('stepPercent').textContent = pct + '%';
+      document.getElementById('stepEyebrow').textContent = `Paso ${step + 1} de 8`;
+      const content = document.getElementById('wizardContent');
+
+      if(step === 0){
+        document.getElementById('stepTitle').textContent = 'Información de la empresa';
+        document.getElementById('stepSub').textContent = 'Datos básicos para personalizar el dashboard y el PDF.';
+        content.innerHTML = `<div class="form-grid">
+          <div class="field"><label>Empresa</label><input id="companyName" value="${company.name}" placeholder="Nombre de la empresa" /></div>
+          <div class="field"><label>Sector</label><select id="companySector"><option>PyME</option><option>Manufactura</option><option>Logística</option><option>Retail</option><option>Servicios profesionales</option><option>Otro</option></select></div>
+          <div class="field"><label>Responsable</label><input id="companyOwner" value="${company.owner}" placeholder="Nombre del responsable" /></div>
+          <div class="field"><label>Correo</label><input id="companyEmail" value="${company.email}" placeholder="correo@empresa.com" /></div>
+          <div class="field"><label>Tamaño</label><select id="companySize"><option>1-50 empleados</option><option>51-250 empleados</option><option>251-1000 empleados</option><option>1000+ empleados</option></select></div>
+          <div class="field"><label>Operación crítica</label><select id="companyCritical"><option>Operación normal</option><option>Horario extendido</option><option>Operación 24/7</option></select></div>
+        </div>`;
+        setSelect('companySector', company.sector); setSelect('companySize', company.size); setSelect('companyCritical', company.critical);
+      } else if(step >= 1 && step <= 6) {
+        const d = DOMAINS[step - 1];
+        document.getElementById('stepTitle').textContent = `${d.name} · ${d.label}`;
+        document.getElementById('stepSub').textContent = d.summary;
+        content.innerHTML = `<div class="questions">` + d.questions.map((q, i) => `<div class="question">
+          <p><span class="q-title">${q.title}</span><br>${q.text}<br><span class="q-context">Ponderación ACMA: ${q.weight.toFixed(1)} · Responda con el nivel que mejor represente evidencia y operación actual.</span></p>
+          <select onchange="answers['${d.id}'][${i}] = Number(this.value)">
+            ${SCALE.map(s => `<option value="${s.value}" ${answers[d.id][i] == Number(s.value) ? 'selected' : ''}>${s.value} - ${s.label}</option>`).join('')}
+          </select>
+        </div>`).join('') + `</div>`;
+      } else {
+        document.getElementById('stepTitle').textContent = 'Revisión final y generación';
+        document.getElementById('stepSub').textContent = 'Confirme la información antes de generar el dashboard y el reporte ejecutivo.';
+        content.innerHTML = `
+          <div class="final-review">
+            <div class="review-card">
+              <h3>Información de la empresa</h3>
+              <div class="review-table">
+                <div class="review-row"><b>Empresa</b><span>${company.name || 'No especificada'}</span></div>
+                <div class="review-row"><b>Sector / Industria</b><span>${company.sector}</span></div>
+                <div class="review-row"><b>Responsable</b><span>${company.owner || 'No especificado'}</span></div>
+                <div class="review-row"><b>Correo electrónico</b><span>${company.email || 'No especificado'}</span></div>
+                <div class="review-row"><b>Tamaño</b><span>${company.size}</span></div>
+                <div class="review-row"><b>Operación crítica</b><span>${company.critical}</span></div>
+              </div>
+              <div class="privacy-note"><strong>Su información está protegida.</strong><br/>Los datos proporcionados se utilizarán únicamente para generar el dashboard y el reporte ejecutivo ACMA.</div>
+            </div>
+            <div class="review-card">
+              <h3>¿Qué obtendrá al finalizar?</h3>
+              <div class="review-benefit"><div class="review-icon">01</div><div><strong>Dashboard ejecutivo interactivo</strong><br/><span style="color:#64748b">Visualización completa de su nivel de madurez.</span></div></div>
+              <div class="review-benefit"><div class="review-icon">02</div><div><strong>Madurez general y por dominio</strong><br/><span style="color:#64748b">Resultado alineado a las funciones NIST CSF 2.0.</span></div></div>
+              <div class="review-benefit"><div class="review-icon">03</div><div><strong>Fortalezas y debilidades</strong><br/><span style="color:#64748b">Identificación de capacidades actuales y brechas prioritarias.</span></div></div>
+              <div class="review-benefit"><div class="review-icon">04</div><div><strong>Riesgos, quick wins y roadmap</strong><br/><span style="color:#64748b">Acciones recomendadas a 30, 90, 180 y 365 días.</span></div></div>
+              <div class="review-benefit"><div class="review-icon">PDF</div><div><strong>Reporte ejecutivo</strong><br/><span style="color:#64748b">Documento listo para guardar como PDF y compartir internamente.</span></div></div>
+            </div>
+          </div>`;
+      }
+      document.getElementById('nextButton').textContent = step === 7 ? 'Generar resultados' : 'Siguiente';
+    }
+
+    function setSelect(id, value){ const el = document.getElementById(id); if(el) el.value = value; }
+    function saveCompany(){ if(step === 0){ company.name = document.getElementById('companyName').value; company.sector = document.getElementById('companySector').value; company.owner = document.getElementById('companyOwner').value; company.email = document.getElementById('companyEmail').value; company.size = document.getElementById('companySize').value; company.critical = document.getElementById('companyCritical').value; } }
+    function nextStep(){ saveCompany(); if(step < 7){ step++; renderStep(); } else { calculate(); } }
+    function prevStep(){ saveCompany(); if(step > 0){ step--; renderStep(); } }
+    function level(score){ if(score>=85)return'Optimizado'; if(score>=70)return'Gestionado'; if(score>=50)return'Intermedio'; if(score>=30)return'Básico'; return'Inicial'; }
+    function riskLevel(score){ if(score>=75)return'Bajo'; if(score>=55)return'Medio'; if(score>=35)return'Alto'; return'Crítico'; }
+
+    function calculate(){
+      const scores = DOMAINS.map(d => {
+        const vals = answers[d.id];
+        let weighted = 0, totalWeight = 0;
+        d.questions.forEach((q, i) => { weighted += vals[i] * q.weight; totalWeight += 5 * q.weight; });
+        return { id:d.id, label:d.name, score:Math.round((weighted / totalWeight) * 100) };
+      });
+
+      const weights = {govern:1.15, identify:1.1, protect:1.2, detect:1.15, respond:1.05, recover:1.15};
+      const overall = Math.round(scores.reduce((acc,d)=>acc + d.score * weights[d.id],0) / scores.reduce((acc,d)=>acc + weights[d.id],0));
+      const resilience = Math.round((scores.find(d=>d.id==='respond').score + scores.find(d=>d.id==='recover').score + scores.find(d=>d.id==='detect').score)/3);
+      const top = [...scores].sort((a,b)=>b.score-a.score)[0];
+      const weak = [...scores].sort((a,b)=>a.score-b.score)[0];
+
+      document.getElementById('overallScore').textContent = overall;
+      document.getElementById('levelName').textContent = level(overall);
+      document.getElementById('riskLevel').textContent = riskLevel(overall);
+      document.getElementById('resilienceIndex').textContent = resilience;
+      document.getElementById('gaugeFill').style.width = overall + '%';
+      document.getElementById('reportMeta').textContent = `${company.name || 'Empresa evaluada'} · ${company.sector} · ${company.owner || 'Responsable no especificado'} · ${new Date().toLocaleDateString('es-MX')}`;
+      renderBars(scores); renderRadar(scores); renderInsights(scores, overall); renderRoadmap(weak.id); renderServices(scores);
+      document.getElementById('resultsSection').classList.add('active');
+      document.getElementById('resultsSection').scrollIntoView({behavior:'smooth'});
+    }
+
+    function renderBars(scores){ document.getElementById('bars').innerHTML = scores.map(d => `<div class="bar-row"><strong>${d.label}</strong><div class="bar-bg"><div class="bar-fill" style="width:${d.score}%"></div></div><span>${d.score}%</span></div>`).join(''); }
+
+    function renderRadar(scores){
+      const svg = document.getElementById('radarSvg'), cx=220, cy=185, maxR=128;
+      const pts = scores.map((d,i)=>{ const a=(-90+i*60)*Math.PI/180, r=maxR*d.score/100; return [cx+r*Math.cos(a), cy+r*Math.sin(a), d]; });
+      const axis = scores.map((d,i)=>{ const a=(-90+i*60)*Math.PI/180; return [cx+maxR*Math.cos(a), cy+maxR*Math.sin(a), d]; });
+      svg.innerHTML = `<polygon points="${axis.map(p=>p[0]+','+p[1]).join(' ')}" fill="none" stroke="#cbd5e1" stroke-width="2"/>${axis.map(p=>`<line x1="${cx}" y1="${cy}" x2="${p[0]}" y2="${p[1]}" stroke="#e2e8f0"/>`).join('')}<polygon points="${pts.map(p=>p[0]+','+p[1]).join(' ')}" fill="rgba(34,211,238,.35)" stroke="#0891b2" stroke-width="3"/>${axis.map(p=>`<text x="${p[0]}" y="${p[1]}" fill="#334155" font-size="13" font-weight="800" text-anchor="middle">${p[2].label}</text>`).join('')}`;
+    }
+
+    function renderInsights(scores, overall){
+      const weak = [...scores].sort((a,b)=>a.score-b.score).slice(0,3);
+      const strong = [...scores].sort((a,b)=>b.score-a.score).slice(0,3);
+      document.getElementById('strengths').innerHTML = strong.map(d => `<li>${guidance[d.id][0]} <strong>(${d.label}: ${d.score}%)</strong></li>`).join('');
+      document.getElementById('weaknesses').innerHTML = weak.map(d => `<li>${guidance[d.id][1]} <strong>(${d.label}: ${d.score}%)</strong></li>`).join('');
+      document.getElementById('risks').innerHTML = weak.map((d,i) => `<div class="risk ${i===0?'high':''}"><strong>${d.label} · Prioridad ${i===0?'crítica':'alta'}</strong><br/>${guidance[d.id][2]}</div>`).join('');
+      document.getElementById('quickwins').innerHTML = weak.map(d => `<div class="quickwin"><strong>${d.label}</strong><br/>${guidance[d.id][3]}</div>`).join('');
+      document.getElementById('executiveSummary').textContent = `La organización presenta un nivel ${level(overall)} con una madurez general de ${overall}/100 y un riesgo ${riskLevel(overall).toLowerCase()}. El resultado permite identificar tendencias ejecutivas y priorizar dominios críticos. ALLUNIFIED recomienda validar estos hallazgos mediante un Workshop Ejecutivo y posteriormente un Assessment Técnico en campo para confirmar evidencias, identificar dependencias operativas y construir un roadmap alineado al negocio.`;
+    }
+
+    function renderRoadmap(id){
+      const map = {
+        govern:['Formalizar responsable, comité, política y KPIs.','Definir presupuesto, reporting ejecutivo y proveedores.','Institucionalizar gobierno de riesgo tecnológico.','Alinear programa a ISO 27001/NIST.'],
+        identify:['Actualizar inventario de activos, software, cloud y proveedores.','Clasificar información y mapear servicios críticos.','Incorporar inventario OT y dependencias.','Automatizar inventarios y riesgos.'],
+        protect:['Implementar MFA en cuentas críticas.','Revisar respaldos, hardening, privilegios y endpoint.','Segmentar redes críticas y fortalecer awareness.','Evolucionar hacia Zero Trust.'],
+        detect:['Centralizar logs críticos.','Implementar escaneo y monitoreo.','Evaluar SIEM/XDR/SOC administrado.','Integrar threat intelligence y monitoreo OT.'],
+        respond:['Documentar plan de respuesta.','Diseñar matriz de comunicación y playbooks.','Ejecutar tabletop con Dirección y TI.','Madurar CSIRT y gestión de crisis.'],
+        recover:['Definir RTO/RPO y servicios críticos.','Probar respaldos y actualizar DRP/BCP.','Agregar respaldos inmutables/offline.','Establecer programa de resiliencia.']
+      };
+      const labels = ['30 días','90 días','180 días','365 días'];
+      document.getElementById('roadmap').innerHTML = map[id].map((t,i)=>`<div class="road"><strong>${labels[i]}</strong>${t}</div>`).join('');
+    }
+
+    function renderServices(scores){
+      const weak = [...scores].sort((a,b)=>a.score-b.score).slice(0,3);
+      document.getElementById('servicesRec').innerHTML = weak.map(d => `<div class="service-rec"><strong>${serviceMap[d.id]}</strong><p style="color:#64748b">Servicio recomendado para atender brechas del dominio ${d.label}.</p></div>`).join('');
+    }
+
+    DOMAINS.forEach(d => d.questions.forEach(q => q.weight = Number(q.weight || 1)));
+    document.getElementById('domainCards').innerHTML = DOMAINS.map(d => `<article class="domain-card"><div class="domain-icon">${d.name.substring(0,2).toUpperCase()}</div><h3>${d.name}</h3><p>${d.summary}</p></article>`).join('');
+    renderStep();
+  </script>
+</body>
+</html>
